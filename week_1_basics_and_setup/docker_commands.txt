@@ -72,3 +72,12 @@ docker run -it \
       --db=ny_taxi \
       --url=${URL} \
       --table_name=yellow_taxi_trips_docker_ingest
+
+#Create docker-compose.yaml file with config specified there and run:
+docker-compose up
+or 
+docker-compose up -d # to run it in detached mode so that we get the terminal back
+
+#to shut it down:
+docker-compose down
+
