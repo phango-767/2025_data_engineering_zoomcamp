@@ -36,6 +36,9 @@ docker run -it \
     --name pgadmin \
     dpage/pgadmin4
 
+    #To convert jupyter notebook to script
+    jupyter nbconvert --to=script notebook_name.ipynb
+
  In pgAdmin, in the name of the connection, use the name provided in the setup of pgadmin   
 
 
@@ -44,14 +47,14 @@ docker run -it \
 
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
 
-python ingestion.py \
+python3 ingestion.py \
     --user=root \
     --password=root \
     --host=localhost \
     --port=5432 \
-    --database=ny_taxi \
-    --url=${URL}
-    --table_name=yellow_taxi_trips
+    --db=ny_taxi \
+    --url=${URL} \
+    --table_name=yellow_taxi_data
 
 
 #Commad to build your docker image
@@ -66,6 +69,6 @@ docker run -it \
       --password=root \
       --host=pg-database \
       --port=5432 \
-      --database=ny_taxi \
+      --db=ny_taxi \
       --url=${URL} \
-      --table-name=yellow_taxi_trips
+      --table_name=yellow_taxi_trips_docker_ingest
