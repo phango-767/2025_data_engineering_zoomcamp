@@ -1,22 +1,92 @@
-# Why Terraform?
-
-- Simplicity in keeping track of infrastructure
-- Easier collaboration
-- Reproducibility
-- Ensure resources are removed
-
-# What Terraform is NOT
-
-- Does not manage and update code on infrastructure
-- Does not give you the ability to change immutable resources
-- Not used to manage resources not defined in your terraform files
-
-# What is Terraform?
-- *Infrastructure as code*
-
-
-## Key Terraform commands
-- *Init*: Get me the providers I need
-- *Plan*: What am I about to do?
-- *Apply*: Do what is in the tf files
-- *Destroy*: Remove everything defined in the tf files
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Why Terraform?\n",
+    "\n",
+    "- Simplicity in keeping track of infrastructure\n",
+    "- Easier collaboration\n",
+    "- Reproducibility\n",
+    "- Ensure resources are removed\n",
+    "\n",
+    "# What Terraform is NOT \n",
+    "\n",
+    "- Does not manage and update code on infrastructure\n",
+    "- Does not give you the ability to change immutable resources\n",
+    "- Not used to manage resources not defined in your terraform files\n",
+    "\n",
+    "# What is Terraform?\n",
+    "\n",
+    "- *Infastructure as code*"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Terraform Overview\n",
+    "\n",
+    "### Concepts\n",
+    "\n",
+    "1. What is Terraform?\n",
+    "    - open-source tool by HashiCorp, used for provisioning infrastructure resources\n",
+    "    - supports DevOps best practices for change management\n",
+    "    - Managing configuration files in source control to maintain an ideal provisioning state for testing and production environments\n",
+    "\n",
+    "2. What is IaC?\n",
+    "     - Infrastructure-as-Code\n",
+    "     - build, change, and manage your infrastructure in a safe, consistent, and repeatable way by defining resource configurations that you can version, reuse, and share.\n",
+    "\n",
+    "3. Some advantages\n",
+    "    - Infrastructure lifecycle management\n",
+    "    - Version control commits\n",
+    "    - Very useful for stack-based deployments, and with cloud providers such as AWS, GCP, Azure, K8S…\n",
+    "    - State-based approach to track resource changes throughout deployments\n",
+    "\n",
+    "### Files\n",
+    "- `main.tf`\n",
+    "- `variables.tf`\n",
+    "- Optional: `resources.tf` , `output.tf`\n",
+    "- `tfstate`\n",
+    "\n",
+    "### Declarations\n",
+    "- `terraform`: configure basic Terraform settings to provision your infrastructure \n",
+    "    - `required_version`: minimum Terraform version to apply to your configuration\n",
+    "    - `backend`: stores Terraform's \"state\" snapshots, to map real-world resources to your configuration. \n",
+    "        - `local`: stores state file locally as `terraform.tfstate`\n",
+    "    - `required_providers`: specifies the providers required by the current module\n",
+    "- `provider`:\n",
+    "    - adds a set of resource types and/or data sources that Terraform can manage\n",
+    "    - The Terraform Registry is the main directory of publicly available providers from most major infrastructure platforms.\n",
+    "- `resource`\n",
+    "    - blocks to define components of your infrastructure\n",
+    "    - Project modules/resources: google_storage_bucket, google_bigquery_dataset, google_bigquery_table\n",
+    "- `variable` & `locals`\n",
+    "    - runtime arguments  and constants\n",
+    "\n",
+    "### Execution steps\n",
+    "\n",
+    "1. `terraform init`:\n",
+    "    Initializes & configures the backend, installs plugins/providers, & checks out an existing configuration from a version control.\n",
+    "\n",
+    "2. `terraform plan`:\n",
+    "    Matches/previews local changes against a remote state, and proposes an Execution Plan.\n",
+    "\n",
+    "3. `terraform apply`:\n",
+    "    Asks for approval to the proposed plan, and applies changes to cloud\n",
+    "\n",
+    "4. `terraform destroy`:\n",
+    "    Removes your stack from the Cloud"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
