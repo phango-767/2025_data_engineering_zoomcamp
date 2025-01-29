@@ -1,3 +1,13 @@
+# variable "credential" {
+#   description = "My credentials"
+#   default     = file("/workspaces/2025_data_engineering_zoomcamp/week_1_basics_and_setup/terraform/keys/my_creds.json")
+# }
+
+variable "credentials" {
+  description = "My credentials"
+  default     = "./keys/my_creds.json"
+}
+
 variable "region" {
   description = "Dataset region"
   default     = "us-central1"

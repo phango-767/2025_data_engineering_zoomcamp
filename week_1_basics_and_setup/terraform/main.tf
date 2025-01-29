@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("/workspaces/2025_data_engineering_zoomcamp/week_1_basics_and_setup/terraform/keys/my_creds.json")
+  credentials = file(var.credentials)
   project     = var.project
   region      = var.region
 }
@@ -34,6 +34,6 @@ resource "google_bigquery_dataset" "demo_resource_dataset" {
   friendly_name              = "friendly_name_goes_here"
   description                = "This is a test description"
   location                   = var.location
-  delete_contents_on_destroy = "true"
-  is_case_insensitive        = "true"
+  delete_contents_on_destroy = var.delete_contents_on_destroy
+  is_case_insensitive        = var.is_case_insensitive
 }
