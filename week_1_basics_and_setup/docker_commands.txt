@@ -41,11 +41,13 @@ docker run -it \
 
  In pgAdmin, in the name of the connection, use the name provided in the setup of pgadmin   
 
+#Commad to build your docker image
+docker build -t taxi_ingest:v001 .
 
-#Commad to run the python script locally and test it
-#If you are using the port 5432 in your local try with other port
+#Commad to run the python script locally and test it. If you are using the port 5432 in your local try with other port
 
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv"
 
 python3 ingestion.py \
     --user=root \
@@ -54,14 +56,11 @@ python3 ingestion.py \
     --port=5432 \
     --db=ny_taxi \
     --url=${URL} \
-    --table_name=yellow_taxi_data
-
-
-#Commad to build your docker image
-docker build -t taxi_ingest:v001 .
+    --table_name=green_zones
 
 #Commad to start your docker image and the ingestion process
-URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
+URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv"
+
 docker run -it \
     --network=pg-network \
     taxi_ingest:v001 \
@@ -71,7 +70,7 @@ docker run -it \
       --port=5432 \
       --db=ny_taxi \
       --url=${URL} \
-      --table_name=yellow_taxi_trips_docker_ingest
+      --table_name=green_zones
 
 #Create docker-compose.yaml file with config specified there and run:
 docker-compose up

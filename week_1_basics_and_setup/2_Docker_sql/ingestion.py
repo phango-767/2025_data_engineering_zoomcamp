@@ -16,10 +16,19 @@ def main(params):
     url = params.url
 
     # gzipped_file = 'output.csv.gz'
-    csv_name = 'output.csv'
+    # csv_name = 'output.csv'
 
     # Step 1: Download the gzipped file
-    os.system(f"wget {url} -O {csv_name}")  # Download gzipped file
+    # os.system(f"wget {url} -O {csv_name}")  # Download gzipped file
+    csv_name = 'output.csv'
+    gzip_name = 'output.gz'
+    if url.endswith('.csv'):
+        os.system(f"wget {url} -O {csv_name}")
+    if url.endswith('.gz'):
+        os.system(f"wget {url} -O {gzip_name}")
+        with gzip.open(gzip_name, 'rb') as f_in:
+            with open(csv_name, 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
 
 
     # Step 3: Connect to the database using SQLAlchemy engine
@@ -27,13 +36,15 @@ def main(params):
     engine.connect()
 
     # Step 4: Read the CSV in chunks and insert into the database
-    # df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, on_bad_lines='skip')  # Read in chunks
-    df_iter = pd.read_csv(csv_name, iterator= True, chunksize= 100000, compression= 'gzip') 
+    df_iter = pd.read_csv(csv_name, iterator=True, chunksize=100000, on_bad_lines='skip')  # Read in chunks
+    # df_iter = pd.read_csv(csv_name, iterator= True, chunksize= 100000, compression= 'gzip') 
     df = next(df_iter)
 
     # Convert datetime columns
-    df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-    df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    # df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+    # df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+    # df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
+    # df.lpep_dropoff_datetime = pd.to_datetime(df.lpep_dropoff_datetime)
 
     # Create the table in Postgres if it doesn't exist
     df.head(0).to_sql(name=table_name, con=engine, if_exists='replace')
@@ -49,8 +60,10 @@ def main(params):
             df = next(df_iter)
 
             # Convert datetime columns
-            df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
-            df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+            # df.tpep_pickup_datetime = pd.to_datetime(df.tpep_pickup_datetime)
+            # df.tpep_dropoff_datetime = pd.to_datetime(df.tpep_dropoff_datetime)
+            # df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
+            # df.lpep_dropoff_datetime = pd.to_datetime(df.lpep_dropoff_datetime)
 
             # Append the current chunk to the database
             df.to_sql(name=table_name, con=engine, if_exists='append')
